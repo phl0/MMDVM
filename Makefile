@@ -119,8 +119,8 @@ nucleo: LDFLAGS+=-Os --specs=nano.specs
 nucleo: release
 
 embedded: GitVersion.h
-embedded: CFLAGS+=$(DEFS_NUCLEO) -Os -ffunction-sections -fdata-sections -fno-builtin -Wno-implicit -DCUSTOM_NEW -DNO_EXCEPTIONS
-embedded: CXXFLAGS+=$(DEFS_NUCLEO) -Os -fno-exceptions -ffunction-sections -fdata-sections -fno-builtin -fno-rtti -DCUSTOM_NEW -DNO_EXCEPTIONS
+embedded: CFLAGS+=$(DEFS_EMBEDDED) -Os -ffunction-sections -fdata-sections -fno-builtin -Wno-implicit -DCUSTOM_NEW -DNO_EXCEPTIONS
+embedded: CXXFLAGS+=$(DEFS_EMBEDDED) -Os -fno-exceptions -ffunction-sections -fdata-sections -fno-builtin -fno-rtti -DCUSTOM_NEW -DNO_EXCEPTIONS
 embedded: LDFLAGS+=-Os --specs=nano.specs
 embedded: release
 

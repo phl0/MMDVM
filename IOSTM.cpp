@@ -329,8 +329,6 @@ EXT_CLK  PB8    input            CN5 Pin10
 #define PIN_TX            GPIO_Pin_5
 #define PIN_TX_CH         DAC_Channel_2
 
-#else
-
 #elif defined(STM32F4_EMBEDDED)
 
 /*
@@ -424,8 +422,6 @@ EXT_CLK  PA15   input            CN7 Pin18
 
 #define PIN_TX            GPIO_Pin_4
 #define PIN_TX_CH         DAC_Channel_1
-#endif
-
 
 #else
 #error "Either STM32F4_NUCLEO_MORPHO_HEADER or STM32F4_NUCLEO_ARDUINO_HEADER need to be defined in Config.h"

@@ -51,7 +51,7 @@ extern "C" {
 }
 
 /* ************* USART1 ***************** */
-#if defined(STM32F4_PI) || (defined(STM32F4_EMBEDDED) || (defined(STM32F4_NUCLEO) && defined(STM32F4_NUCLEO_ARDUINO_HEADER))
+#if defined(STM32F4_PI) || (defined(STM32F4_EMBEDDED)) || (defined(STM32F4_NUCLEO) && defined(STM32F4_NUCLEO_ARDUINO_HEADER))
 
 volatile uint32_t intcount1;
 volatile uint8_t  TXSerialfifo1[TX_SERIAL_FIFO_SIZE];
