@@ -90,6 +90,8 @@ DEFS_DIS=-DUSE_STDPERIPH_DRIVER -DSTM32F4XX -DSTM32F40_41xxx -DSTM32F4_DISCOVERY
 DEFS_PI=-DUSE_STDPERIPH_DRIVER -DSTM32F4XX -DSTM32F446xx -DSTM32F4_PI -DARDUINO_MODE_PINS -DSEND_RSSI_DATA -DSERIAL_REPEATER -DHSE_VALUE=$(OSC) -DMADEBYMAKEFILE
 # STM32F4 Nucleo 446 board:
 DEFS_NUCLEO=-DUSE_STDPERIPH_DRIVER -DSTM32F4XX -DSTM32F446xx -DSTM32F4_NUCLEO -DHSE_VALUE=$(OSC) -DMADEBYMAKEFILE
+# STM32F4 embedded board by F0DEI:
+DEFS_EMBEDDED=-DUSE_STDPERIPH_DRIVER -DSTM32F4XX -DSTM32F446xx -DSTM32F4_EMBEDDED -DHSE_VALUE=$(OSC) -DMADEBYMAKEFILE
 
 CFLAGS=-c $(MCFLAGS) $(INCLUDES)
 CXXFLAGS=-c $(MCFLAGS) $(INCLUDES)
@@ -99,7 +101,7 @@ LDSCRIPT=stm32f4xx_link.ld
 LDFLAGS =-T $(LDSCRIPT) $(MCFLAGS) --specs=nosys.specs $(INCLUDES_LIBS) $(LINK_LIBS)
 
 # Build Rules
-.PHONY: all release dis pi nucleo debug clean
+.PHONY: all release dis pi nucleo embedded debug clean
 
 # Default target: STM32F4 Nucleo F446RE board
 all: nucleo
@@ -115,6 +117,12 @@ nucleo: CFLAGS+=$(DEFS_NUCLEO) -Os -ffunction-sections -fdata-sections -fno-buil
 nucleo: CXXFLAGS+=$(DEFS_NUCLEO) -Os -fno-exceptions -ffunction-sections -fdata-sections -fno-builtin -fno-rtti -DCUSTOM_NEW -DNO_EXCEPTIONS
 nucleo: LDFLAGS+=-Os --specs=nano.specs
 nucleo: release
+
+embedded: GitVersion.h
+embedded: CFLAGS+=$(DEFS_NUCLEO) -Os -ffunction-sections -fdata-sections -fno-builtin -Wno-implicit -DCUSTOM_NEW -DNO_EXCEPTIONS
+embedded: CXXFLAGS+=$(DEFS_NUCLEO) -Os -fno-exceptions -ffunction-sections -fdata-sections -fno-builtin -fno-rtti -DCUSTOM_NEW -DNO_EXCEPTIONS
+embedded: LDFLAGS+=-Os --specs=nano.specs
+embedded: release
 
 dis: GitVersion.h
 dis: CFLAGS+=$(DEFS_DIS) -Os -ffunction-sections -fdata-sections -fno-builtin -Wno-implicit -DCUSTOM_NEW -DNO_EXCEPTIONS

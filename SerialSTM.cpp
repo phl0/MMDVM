@@ -30,10 +30,11 @@ Pin definitions:
 USART1 - TXD PA9  - RXD PA10 (Pi board)
 USART2 - TXD PA2  - RXD PA3  (Nucleo board)
 USART3 - TXD PC10 - RXD PC11 (Discovery board)
+USART1 - TXD PA9  - RXD PA10 (Embedded board)
 
 - Serial repeater:
 USART1 - TXD PA9  - RXD PA10 (Nucleo with Arduino header)
-UART5  - TXD PC12 - RXD PD2 (Discovery, Pi and Nucleo with Morpho header)
+UART5  - TXD PC12 - RXD PD2 (Discovery, Pi, Nucleo and Embedded with Morpho header)
 
 */
 
@@ -50,7 +51,7 @@ extern "C" {
 }
 
 /* ************* USART1 ***************** */
-#if defined(STM32F4_PI) || (defined(STM32F4_NUCLEO) && defined(STM32F4_NUCLEO_ARDUINO_HEADER))
+#if defined(STM32F4_PI) || (defined(STM32F4_EMBEDDED) || (defined(STM32F4_NUCLEO) && defined(STM32F4_NUCLEO_ARDUINO_HEADER))
 
 volatile uint32_t intcount1;
 volatile uint8_t  TXSerialfifo1[TX_SERIAL_FIFO_SIZE];
@@ -836,6 +837,8 @@ void CSerialPort::beginInt(uint8_t n, int speed)
          InitUSART1(speed);
          #elif defined(STM32F4_NUCLEO)
          InitUSART2(speed);
+         #elif defined(STM32F4_EMBEDDED)
+         InitUSART1(speed);
          #endif
          break;
       case 3U:
@@ -860,6 +863,8 @@ int CSerialPort::availableInt(uint8_t n)
          return AvailUSART1();
          #elif defined(STM32F4_NUCLEO)
          return AvailUSART2();
+         #elif defined(STM32F4_EMBEDDED)
+         return AvailUSART1();
          #endif
       case 3U:
          #if defined(STM32F4_NUCLEO) && defined(STM32F4_NUCLEO_ARDUINO_HEADER)
@@ -882,6 +887,8 @@ int CSerialPort::availableForWriteInt(uint8_t n)
          return AvailForWriteUSART1();
          #elif defined(STM32F4_NUCLEO)
          return AvailForWriteUSART2();
+         #elif defined(STM32F4_EMBEDDED)
+         return AvailForWriteUSART1();
          #endif
       case 3U:
          #if defined(STM32F4_NUCLEO) && defined(STM32F4_NUCLEO_ARDUINO_HEADER)
@@ -904,6 +911,8 @@ uint8_t CSerialPort::readInt(uint8_t n)
          return ReadUSART1();
          #elif defined(STM32F4_NUCLEO)
          return ReadUSART2();
+         #elif defined(STM32F4_EMBEDDED)
+         return ReadUSART1();
          #endif
       case 3U:
          #if defined(STM32F4_NUCLEO) && defined(STM32F4_NUCLEO_ARDUINO_HEADER)
@@ -932,6 +941,10 @@ void CSerialPort::writeInt(uint8_t n, const uint8_t* data, uint16_t length, bool
          WriteUSART2(data, length);
          if (flush)
             TXSerialFlush2();
+         #elif defined(STM32F4_EMBEDDED)
+         WriteUSART1(data, length);
+         if (flush)
+            TXSerialFlush1();
          #endif
          break;
       case 3U:
