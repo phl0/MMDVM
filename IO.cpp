@@ -481,6 +481,9 @@ void CIO::write(MMDVM_STATE mode, q15_t* samples, uint16_t length, const uint8_t
 
   // Switch the transmitter on if needed
   if (!m_tx) {
+#if defined(MODE_DELAY)
+    delayInt(MODE_DELAY);
+#endif
     m_tx = true;
     setPTTInt(m_pttInvert ? false : true);
   }

@@ -60,6 +60,9 @@
 // Use separate mode pins to switch external channel/filters/bandwidth for example
 // #define MODE_PINS
 
+// Use this to delay pulling the PTT after MODE has been set (value in ms)
+// #define MODE_DELAY 100
+
 // For the VK6MST Pi3 Shield communicating over i2c. i2c address & speed defined in i2cTeensy.cpp
 // #define VK6MST_TEENSY_PI3_SHIELD_I2C
 
